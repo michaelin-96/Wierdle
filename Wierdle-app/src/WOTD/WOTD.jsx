@@ -3,6 +3,15 @@ import styled from 'styled-components';
 import axios from 'axios';
 import {AllWordle} from '../App.jsx';
 
+import Board from './Board.jsx';
+import Keyboard from './Keyboard.jsx';
+
+
+const Header = styled.h2`
+  font-size: 2em;
+  margin-top:5px;
+`
+
 const BackIcon = styled.div`
   font-size: 2em;
   cursor: pointer;
@@ -17,11 +26,14 @@ const BackIcon = styled.div`
 
 export default function WOTD () {
 
-  const {page, setPage} = useContext(AllWordle);
+  const {setPage} = useContext(AllWordle);
+
 
   return (
     <>
-      <div>Word of the Day Challenge</div>
+      <Header>Wierd(le) of the Day</Header>
+      <Board />
+      <Keyboard />
       <BackIcon onClick={() => setPage('homepage')}>{'< Go Back'}</BackIcon>
     </>
   );
