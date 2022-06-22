@@ -22,6 +22,10 @@ export default function App () {
   const [page, setPage] = useState('homepage');
   const [board, setBoard] = useState(defaultBoard);
   const [currentIdx, setCurrentIdx] = useState({ row: 0, column: 0});
+  const [selectedLetters, setSelectedLetters] = useState([]);
+
+  // dummy WOTD for now
+  const wordOTD = 'WEIRD';
 
   const renderView = () => {
     switch (page) {
@@ -48,7 +52,9 @@ export default function App () {
   const handleEnter = () => {
     if (currentIdx.column === 5) {
       // need to send an axios request to our server, to check if word exists, if doesnt exist
+      setSelectedLetters([...selectedLetters, board[currentIdx.row][0], board[currentIdx.row][1], board[currentIdx.row][2], board[currentIdx.row][3], board[currentIdx.row][4]]);
       setCurrentIdx({row: currentIdx.row + 1, column: 0})
+
     }
   }
 
@@ -63,7 +69,7 @@ export default function App () {
 
   return (
     <AppCSS>
-      <AllWordle.Provider value={{page, setPage, board, setBoard, currentIdx, setCurrentIdx, handleEnter, handleBackspace, handleLetterSelect}}>
+      <AllWordle.Provider value={{page, setPage, board, setBoard, currentIdx, setCurrentIdx, handleEnter, handleBackspace, handleLetterSelect, wordOTD, selectedLetters, setSelectedLetters}}>
         <React.Suspense fallback={<p>loading...</p>}>{renderView()}</React.Suspense>
       </AllWordle.Provider>
 

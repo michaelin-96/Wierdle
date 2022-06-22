@@ -1,6 +1,8 @@
 import React, {useState, useContext, useEffect} from 'react';
 import styled from 'styled-components';
 import {AllWordle} from '../App.jsx';
+import '../index.css';
+
 const KeyLetterCont = styled.div`
   width: 50px;
   height: 70px;
@@ -18,13 +20,16 @@ const KeyLetterCont = styled.div`
   }
 `
 
+
 export default function KeyboardLetter ({letter}) {
 
-  let {handleLetterSelect} = useContext(AllWordle);
+  let {handleLetterSelect, selectedLetters, wordOTD} = useContext(AllWordle);
+
+  const KeyboardLetterID = (selectedLetters.indexOf(letter) !== -1 && wordOTD.includes(letter)) ? "green" : (selectedLetters.indexOf(letter) !== -1) ? "incorrect" : "";
 
   return (
     <>
-      <KeyLetterCont onClick={() => handleLetterSelect(letter)}>{letter}</KeyLetterCont>
+        <KeyLetterCont id={KeyboardLetterID} onClick={() => handleLetterSelect(letter)}>{letter}</KeyLetterCont>
     </>
   );
 

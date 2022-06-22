@@ -57,9 +57,10 @@ export default function Keyboard () {
   const row2 = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
   const row3 = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
   const alphabet = [...row1, ...row2, ...row3];
+
   let {handleEnter, handleBackspace, handleLetterSelect} = useContext(AllWordle);
 
-  const handleKeyboard = useCallback((e) => {
+  const handleKeyboardInput = useCallback((e) => {
     if (e.key === 'Enter') {
       handleEnter();
     } else if (e.key === 'Backspace') {
@@ -70,17 +71,16 @@ export default function Keyboard () {
   })
 
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyboard)
-
+    document.addEventListener("keydown", handleKeyboardInput)
     return () => {
-      document.removeEventListener("keydown", handleKeyboard)
+      document.removeEventListener("keydown", handleKeyboardInput)
     }
-  }, [handleKeyboard])
+  }, [handleKeyboardInput])
 
 
   return (
     <>
-      <KeyboardContainer onKeyDown={() => handleKeyboard()}>
+      <KeyboardContainer onKeyDown={() => handleKeyboardInput()}>
         <KeyboardRow>
           {row1.map((elem, idx) => {
             return <KeyboardLetter key={idx} letter={elem}/>
