@@ -24,8 +24,8 @@ const OverlayStyles = styled.div`
 `
 const Icon = styled.div`
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: 5px;
   color: white;
   cursor: pointer;
   &:hover {
