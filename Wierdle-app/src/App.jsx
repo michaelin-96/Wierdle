@@ -9,7 +9,7 @@ export const AllWordle = createContext();
 
 const AppCSS = styled.div`
   text-align: center;
-  background-color: #5a6375;
+  background-color: #6d8e94;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

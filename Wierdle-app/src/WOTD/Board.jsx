@@ -7,7 +7,6 @@ import Letter from './Letter.jsx';
 const BoardContainer = styled.div`
   width: 450px;
   height: 550px;
-  border: 1.5px solid black;
   display: flex;
   flex-direction: column;
   padding-bottom: 12px;

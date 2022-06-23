@@ -10,11 +10,11 @@ const Header = styled.h2`
 `
 
 const BackIcon = styled.div`
-  font-size: 1em;
+  font-size: 1.5em;
   cursor: pointer;
   &:hover {
-    color: #56e8e6;
-    font-weight: bolder;
+    color: #3a3a3c;
+    font-weight: 700;
   }
   position: absolute;
   top: 20px;

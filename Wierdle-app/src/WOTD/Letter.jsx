@@ -6,7 +6,7 @@ import '../index.css';
 const LetterContainer = styled.div`
   flex: 33%;
   height: 100%;
-  border: 1px solid grey;
+  border: 2px groove #474747;
   margin: 5px;
   display: grid;
   place-items: center;

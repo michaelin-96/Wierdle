@@ -6,6 +6,8 @@ const EndGameBodyWin = styled.h5`
   margin-top: 5px;
   margin-bottom: 5px;
   color: #538d4e;
+  background-color: #fafafa;
+  border-radius: 5px;
 `
 
 const EndGameBodyL = styled.h5`
