@@ -5,6 +5,7 @@ import {AllWordle} from '../App.jsx';
 
 import Board from './Board.jsx';
 import Keyboard from './Keyboard.jsx';
+import EndGame from './EndGame.jsx';
 
 
 const Header = styled.h2`
@@ -26,14 +27,14 @@ const BackIcon = styled.div`
 
 export default function WOTD () {
 
-  const {setPage} = useContext(AllWordle);
+  const {setPage, endGame} = useContext(AllWordle);
 
 
   return (
     <>
       <Header>Wierd(le) of the Day</Header>
       <Board />
-      <Keyboard />
+      {endGame.attemptsLeft ? <Keyboard /> : <EndGame />}
       <BackIcon onClick={() => setPage('homepage')}>{'< Go Back'}</BackIcon>
     </>
   );
