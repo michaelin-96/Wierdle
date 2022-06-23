@@ -6,6 +6,7 @@ import {AllWordle} from '../App.jsx';
 import Board from './Board.jsx';
 import Keyboard from './Keyboard.jsx';
 import EndGame from './EndGame.jsx';
+import Notices from './Notices.jsx';
 
 
 const Header = styled.h2`
@@ -35,6 +36,7 @@ export default function WOTD () {
   return (
     <>
       <Header>Wierd(le) of the Day
+      <Notices />
       {endGame.attemptsLeft ? <></> : <EndGame />}
       </Header>
       <Board />

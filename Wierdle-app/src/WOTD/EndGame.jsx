@@ -22,7 +22,6 @@ export default function EndGame () {
 
   return (
     <>
-    <br></br>
       {endGame.correct ? <EndGameBodyWin>You Win! <br></br> It took you {currentIdx.row} turn(s)! </EndGameBodyWin> : <EndGameBodyL>You Lose! <br></br> The Correct Word Was: {wordOTD} </EndGameBodyL>}
     </>
   );

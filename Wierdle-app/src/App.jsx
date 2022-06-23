@@ -1,6 +1,7 @@
 import React, {useState, useEffect, createContext} from 'react';
 import styled from 'styled-components';
 import {defaultBoard} from './WOTD/DefaultBoard.js';
+import axios from 'axios';
 const Homepage = React.lazy(() => import('./Homepage/Homepage.jsx'));
 const WOTD = React.lazy(() => import('./WOTD/WOTD.jsx'));
 const Stats = React.lazy(() => import('./Stats/Stats.jsx'));
@@ -24,9 +25,12 @@ export default function App () {
   const [currentIdx, setCurrentIdx] = useState({ row: 0, column: 0});
   const [selectedLetters, setSelectedLetters] = useState([]);
   const [endGame, setEndGame] = useState({attemptsLeft: true, correct: false});
+  const [validWord, setValidWord] = useState(true);
+  const [selectedWords, setSelectedWords] = useState([]);
+  const [repeatWord, setRepeatWord] = useState(false);
 
-  // dummy WOTD for now
-  const wordOTD = 'WEIRD';
+
+  const [wordOTD, setWordOTD] = useState('');
 
   const renderView = () => {
     switch (page) {
@@ -55,15 +59,34 @@ export default function App () {
   const handleEnter = () => {
     if (endGame.attemptsLeft) {
       if (currentIdx.column === 5) {
-        // need to send an axios request to our server, to check if word exists, if doesnt exist
-        let tempArr = [board[currentIdx.row][0], board[currentIdx.row][1], board[currentIdx.row][2], board[currentIdx.row][3], board[currentIdx.row][4]];
-        setSelectedLetters([...selectedLetters, ...tempArr]);
-        if (tempArr.join('') === wordOTD) {
-          setCurrentIdx({row: currentIdx.row + 1, column: 0});
-          setEndGame({attemptsLeft: false, correct: true});
+        if (selectedWords.indexOf(board[currentIdx.row].join('')) === -1) {
+          setRepeatWord(false);
+          let word = board[currentIdx.row].join('');
+          axios.get(`/wordle/wotd/check?word=${word}`)
+            .then((data) => {
+              if (data.data.rowCount) {
+                let tempArr = [board[currentIdx.row][0], board[currentIdx.row][1], board[currentIdx.row][2], board[currentIdx.row][3], board[currentIdx.row][4]];
+                setSelectedLetters([...selectedLetters, ...tempArr]);
+                if (tempArr.join('') === wordOTD) {
+                  setCurrentIdx({row: currentIdx.row + 1, column: 0});
+                  setEndGame({attemptsLeft: false, correct: true});
+                  setValidWord(true);
+                } else {
+                  setSelectedWords([...selectedWords, board[currentIdx.row].join('')]);
+                  setCurrentIdx({row: currentIdx.row + 1, column: 0});
+                  setValidWord(true);
+                }
+              } else {
+                setValidWord(false);
+              }
+
+            })
+            .catch(err => console.log(err));
         } else {
-          setCurrentIdx({row: currentIdx.row + 1, column: 0});
+          setRepeatWord(true);
         }
+
+
       }
     }
   }
@@ -80,6 +103,12 @@ export default function App () {
   }
 
   useEffect(() => {
+    axios.get('/wordle/wotd/get')
+      .then((data) => setWordOTD(data.data))
+      .catch((err) => console.log(err));
+  },[])
+
+  useEffect(() => {
     if (currentIdx.row === 6) {
       setEndGame({attemptsLeft: false, correct: false});
     }
@@ -87,7 +116,7 @@ export default function App () {
 
   return (
     <AppCSS>
-      <AllWordle.Provider value={{page, setPage, board, setBoard, currentIdx, setCurrentIdx, handleEnter, handleBackspace, handleLetterSelect, wordOTD, selectedLetters, setSelectedLetters, endGame, setEndGame}}>
+      <AllWordle.Provider value={{page, setPage, board, setBoard, currentIdx, setCurrentIdx, handleEnter, handleBackspace, handleLetterSelect, wordOTD, selectedLetters, setSelectedLetters, endGame, setEndGame, validWord, setValidWord, repeatWord, setRepeatWord}}>
         <React.Suspense fallback={<p>loading...</p>}>{renderView()}</React.Suspense>
       </AllWordle.Provider>
 

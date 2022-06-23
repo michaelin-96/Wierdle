@@ -1,6 +1,7 @@
 var express = require('express');
-require('dotenv').config();
 
+require('dotenv').config();
+const path = require("path");
 
 // Router
 var router = require('./routes.js');
@@ -9,9 +10,11 @@ var router = require('./routes.js');
 var app = express();
 
 // Set up listening port
-app.set('port', 8008);
+app.set('port', 3000);
 
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, "../build")))
 
 //Set up our routes
 app.use('/wordle', router);
