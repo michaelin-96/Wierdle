@@ -3,14 +3,21 @@ import styled from 'styled-components';
 
 import {AllWordle} from '../App.jsx';
 
-const BackIcon = styled.div`
+const Header = styled.h2`
   font-size: 2em;
+  margin-top:5px;
+  margin-bottom: 10px;
+`
+
+const BackIcon = styled.div`
+  font-size: 1em;
   cursor: pointer;
   &:hover {
     color: #56e8e6;
+    font-weight: bolder;
   }
   position: absolute;
-  bottom: 20px;
+  top: 20px;
   left: 20px;
 `
 
@@ -21,7 +28,8 @@ export default function Stats () {
 
   return (
     <>
-      <div>Statistics</div>
+      <Header>Statistics</Header>
+      <div>In Development</div>
       <BackIcon onClick={() => setPage('homepage')}>{'< Go Back'}</BackIcon>
     </>
   );

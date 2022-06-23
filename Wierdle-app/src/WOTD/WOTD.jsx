@@ -11,16 +11,18 @@ import EndGame from './EndGame.jsx';
 const Header = styled.h2`
   font-size: 2em;
   margin-top:5px;
+  margin-bottom: 10px;
 `
 
 const BackIcon = styled.div`
-  font-size: 2em;
+  font-size: 1em;
   cursor: pointer;
   &:hover {
     color: #56e8e6;
+    font-weight: bolder;
   }
   position: absolute;
-  bottom: 20px;
+  top: 20px;
   left: 20px;
 
 `
@@ -32,9 +34,11 @@ export default function WOTD () {
 
   return (
     <>
-      <Header>Wierd(le) of the Day</Header>
+      <Header>Wierd(le) of the Day
+      {endGame.attemptsLeft ? <></> : <EndGame />}
+      </Header>
       <Board />
-      {endGame.attemptsLeft ? <Keyboard /> : <EndGame />}
+      <Keyboard />
       <BackIcon onClick={() => setPage('homepage')}>{'< Go Back'}</BackIcon>
     </>
   );

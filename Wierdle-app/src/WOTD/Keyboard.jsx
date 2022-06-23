@@ -7,8 +7,8 @@ import { FaBackspace } from "react-icons/fa";
 
 const KeyboardContainer = styled.div`
   width: 700px;
-  height: 300px;
-  margin-top: 25px;
+  height: 225px;
+  margin-top: 20px;
 `
 const KeyboardRow = styled.div`
   display: flex;
@@ -58,15 +58,17 @@ export default function Keyboard () {
   const row3 = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
   const alphabet = [...row1, ...row2, ...row3];
 
-  let {handleEnter, handleBackspace, handleLetterSelect} = useContext(AllWordle);
+  let {handleEnter, handleBackspace, handleLetterSelect, endGame} = useContext(AllWordle);
 
   const handleKeyboardInput = useCallback((e) => {
-    if (e.key === 'Enter') {
-      handleEnter();
-    } else if (e.key === 'Backspace') {
-      handleBackspace();
-    } else if (alphabet.indexOf(e.key.toUpperCase()) !== -1) {
-      handleLetterSelect(e.key.toUpperCase());
+    if (endGame.attemptsLeft) {
+      if (e.key === 'Enter') {
+        handleEnter();
+      } else if (e.key === 'Backspace') {
+        handleBackspace();
+      } else if (alphabet.indexOf(e.key.toUpperCase()) !== -1) {
+        handleLetterSelect(e.key.toUpperCase());
+      }
     }
   })
 

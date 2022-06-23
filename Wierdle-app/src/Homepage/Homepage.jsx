@@ -17,8 +17,9 @@ const HowToButton = styled.button`
   width: 175px;
   cursor: pointer;
   &:hover {
-    background-color: #38f547;
-
+    background-color: #538d4e;
+    color: #fafafa;
+    font-weight: bolder;
   }
   &:hover::after {
     content: 'See How to Play';
@@ -41,14 +42,15 @@ const WOTDButton = styled.button`
   height: 75px;
   cursor: pointer;
   &:hover {
-    background-color: #38f547;
-
+    background-color: #538d4e;
+    color: #fafafa;
+    font-weight: bolder;
   }
   &:hover::after {
     content: 'Play!';
   }
   &::after {
-    content: 'Wierd(le) of the Day (Original)';
+    content: 'Wierd(le) of the Day (Normal)';
   }
 `
 const StatButton = styled.button`
@@ -63,8 +65,9 @@ const StatButton = styled.button`
   width: 175px;
   cursor: pointer;
   &:hover {
-    background-color: #38f547;
-
+    background-color: #538d4e;
+    color: #fafafa;
+    font-weight: bolder;
   }
   &:hover::after {
     content: 'View Stats';
