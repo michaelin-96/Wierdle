@@ -21,7 +21,17 @@ module.exports = {
 
       })
       .catch(err => console.log(err));
+  },
+
+  check: function (req, res) {
+    let queryStr = `SELECT word FROM wordlewb WHERE word = $1`;
+    dbconnect.query(queryStr, [req.query.word])
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => res.send(err));
   }
+
 
 
 }

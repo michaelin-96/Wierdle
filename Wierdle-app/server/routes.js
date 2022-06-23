@@ -1,6 +1,9 @@
 var controller = require('./controllers');
 var router = require('express').Router();
 
-router.get('/wotd', controller.wotd.get);
+// Gets the word of the day
+router.get('/wotd/get', controller.wotd.get);
+// Check if word exists in bank
+router.get('/wotd/check', controller.wotd.check);
 
 module.exports = router;
