@@ -1,12 +1,12 @@
 import React, {useState, useContext, useEffect} from 'react';
 import styled from 'styled-components';
+
 import {AllWordle} from '../App.jsx';
 
-import Board from './Board.jsx';
-import Keyboard from './Keyboard.jsx';
-import EndGame from './EndGame.jsx';
-import Notices from './Notices.jsx';
-
+import Board from '../WOTD/Board.jsx';
+import Keyboard from '../WOTD/Keyboard.jsx';
+import EndGame from '../WOTD/EndGame.jsx';
+import Notices from '../WOTD/Notices.jsx';
 
 const Header = styled.h2`
   font-size: 2em;
@@ -27,14 +27,12 @@ const BackIcon = styled.div`
 
 `
 
-export default function WOTD () {
+export default function Practice () {
 
   const {setPage, endGame} = useContext(AllWordle);
-
-
   return (
     <>
-      <Header>Wierd(le) of the Day
+      <Header>Practice Weird(le)
       <Notices />
       {endGame.attemptsLeft ? <></> : <EndGame />}
       </Header>

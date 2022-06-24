@@ -5,6 +5,7 @@ import axios from 'axios';
 const Homepage = React.lazy(() => import('./Homepage/Homepage.jsx'));
 const WOTD = React.lazy(() => import('./WOTD/WOTD.jsx'));
 const Stats = React.lazy(() => import('./Stats/Stats.jsx'));
+const Practice = React.lazy(() => import('./Practice/Practice.jsx'));
 
 export const AllWordle = createContext();
 
@@ -31,6 +32,7 @@ export default function App () {
 
 
   const [wordOTD, setWordOTD] = useState('');
+  const [randomWord, setRandomWord] = useState('');
 
   const renderView = () => {
     switch (page) {
@@ -40,6 +42,8 @@ export default function App () {
         return <WOTD />;
       case "stats":
         return <Stats />;
+      case "practice":
+        return <Practice />;
       default:
         return <Homepage />;
     }
