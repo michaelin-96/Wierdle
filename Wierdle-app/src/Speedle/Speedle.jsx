@@ -3,8 +3,10 @@ import styled from "styled-components";
 import axios from "axios";
 import { AllWordle } from "../App.jsx";
 
-import Board from "../components/Board.jsx";
-import Keyboard from "../components/Keyboard.jsx";
+import { defaultBoard } from "./DefaultBoard.js";
+
+import Board from "./Board.jsx";
+import Keyboard from "./Keyboard.jsx";
 import EndGame from "../components/EndGame.jsx";
 import Notices from "../components/Notices.jsx";
 
@@ -33,86 +35,148 @@ const BackIcon = styled.div`
 export default function Speedle() {
   const { setPage } = useContext(AllWordle);
 
-  const [speedleBank, setSpeedleBank] = useState([]);
+  const [speedleBank, setSpeedleBank] = useState(["WEIRD"]);
   // Timer states
   const [time, setTime] = useState(0);
   const [timerOn, setTimerOn] = useState(false);
 
   // Speedle States
-  const [board, setBoard] = useState();
+  let emptyBoard = [
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+  ];
 
-  const [currentIdx, setCurrentIdx] = useState({ row: 0, column: 0 });
-  const [selectedLetters, setSelectedLetters] = useState([]);
+  const [board, setBoard] = useState(defaultBoard);
+
+  // Current Board indexes
+  // const [numberCorrect, setNumberCorrect] = useState(0);
+  const [currentIdx, setCurrentIdx] = useState({ row: 0, column: 0, try: 0 });
+
+  // Notice States
+  const [repeatWord, setRepeatWord] = useState(false);
+  const [validWord, setValidWord] = useState(true);
+
+  // EndGame States (might be decaprecated)
   const [endGame, setEndGame] = useState({
     attemptsLeft: true,
-    correct: false,
+    correct: 0,
+    incorrect: 0,
   });
-  const [validWord, setValidWord] = useState(true);
+
+  //Board BTS data
+  const [selectedLetters, setSelectedLetters] = useState([]);
   const [selectedWords, setSelectedWords] = useState([]);
-  const [repeatWord, setRepeatWord] = useState(false);
 
   const handleBackspace = () => {
-    if (endGame.attemptsLeft) {
-      if (currentIdx.column > 0) {
-        let tempBoard = board;
-        tempBoard[currentIdx.row][currentIdx.column - 1] = "";
-        setBoard(tempBoard);
-        setCurrentIdx({ ...currentIdx, column: currentIdx.column - 1 });
+    if (timerOn) {
+      if (endGame.attemptsLeft) {
+        if (currentIdx.column > 0) {
+          let tempBoard = board;
+          tempBoard[currentIdx.row][currentIdx.column - 1] = "";
+          setBoard(tempBoard);
+          setCurrentIdx({ ...currentIdx, column: currentIdx.column - 1 });
+        }
       }
     }
   };
 
   const handleEnter = () => {
-    if (endGame.attemptsLeft) {
-      if (currentIdx.column === 5) {
-        if (selectedWords.indexOf(board[currentIdx.row].join("")) === -1) {
-          setRepeatWord(false);
-          let word = board[currentIdx.row].join("");
-          axios
-            .get(`/wordle/wotd/check?word=${word}`)
-            .then((data) => {
-              if (data.data.rowCount) {
-                let tempArr = [
-                  board[currentIdx.row][0],
-                  board[currentIdx.row][1],
-                  board[currentIdx.row][2],
-                  board[currentIdx.row][3],
-                  board[currentIdx.row][4],
-                ];
-                setSelectedLetters([...selectedLetters, ...tempArr]);
-                if (tempArr.join("") === speedleBank) {
-                  setCurrentIdx({ row: currentIdx.row + 1, column: 0 });
-                  setEndGame({ attemptsLeft: false, correct: true });
-                  setValidWord(true);
+    if (timerOn) {
+      if (endGame.attemptsLeft) {
+        if (currentIdx.column === 5) {
+          if (selectedWords.indexOf(board[currentIdx.row].join("")) === -1) {
+            setRepeatWord(false);
+            let word = board[currentIdx.row].join("");
+            axios
+              .get(`/wordle/wotd/check?word=${word}`)
+              .then((data) => {
+                if (data.data.rowCount) {
+                  let tempArr = [
+                    board[currentIdx.row][0],
+                    board[currentIdx.row][1],
+                    board[currentIdx.row][2],
+                    board[currentIdx.row][3],
+                    board[currentIdx.row][4],
+                  ];
+                  setSelectedLetters([...selectedLetters, ...tempArr]);
+
+                  if (tempArr.join("") === speedleBank[currentIdx.try]) {
+                    handleNextWord();
+                    // setCurrentIdx({ row: currentIdx.row + 1, column: 0 });
+                    setEndGame({ ...endGame, correct: endGame.correct + 1 });
+                    setValidWord(true);
+                  } else {
+                    setSelectedWords([
+                      ...selectedWords,
+                      board[currentIdx.row].join(""),
+                    ]);
+                    setCurrentIdx({
+                      row: currentIdx.row + 1,
+                      column: 0,
+                      try: currentIdx.try,
+                    });
+                    setValidWord(true);
+                  }
                 } else {
-                  setSelectedWords([
-                    ...selectedWords,
-                    board[currentIdx.row].join(""),
-                  ]);
-                  setCurrentIdx({ row: currentIdx.row + 1, column: 0 });
-                  setValidWord(true);
+                  setValidWord(false);
                 }
-              } else {
-                setValidWord(false);
-              }
-            })
-            .catch((err) => console.log(err));
-        } else {
-          setRepeatWord(true);
+              })
+              .catch((err) => console.log(err));
+          } else {
+            setRepeatWord(true);
+          }
         }
       }
     }
   };
 
   const handleLetterSelect = (letter) => {
-    if (endGame.attemptsLeft) {
-      if (currentIdx.row < 6 && currentIdx.column < 5) {
-        let tempBoard = board;
-        tempBoard[currentIdx.row][currentIdx.column] = letter;
-        setBoard(tempBoard);
-        setCurrentIdx({ ...currentIdx, column: currentIdx.column + 1 });
+    if (timerOn) {
+      if (endGame.attemptsLeft) {
+        if (currentIdx.row < 6 && currentIdx.column < 5) {
+          let tempBoard = board;
+          tempBoard[currentIdx.row][currentIdx.column] = letter;
+          setBoard(tempBoard);
+          setCurrentIdx({ ...currentIdx, column: currentIdx.column + 1 });
+        }
       }
     }
+  };
+
+  const handleResetGame = () => {
+    axios
+      .get("/wordle/speedle/get")
+      .then((data) => setSpeedleBank(data.data))
+      .catch((err) => console.log(err))
+      .then(() => {
+        setBoard(emptyBoard);
+        setEndGame({
+          attemptsLeft: true,
+          correct: 0,
+          incorrect: 0,
+        });
+        setCurrentIdx({ row: 0, column: 0, try: 0 });
+        setRepeatWord(false);
+        setValidWord(true);
+        setSelectedLetters([]);
+        setSelectedWords([]);
+      });
+  };
+
+  const handleNextWord = () => {
+    setCurrentIdx({
+      ...currentIdx,
+      try: currentIdx.try + 1,
+      column: 0,
+      row: 0,
+    });
+    setBoard(emptyBoard);
+    setSelectedLetters([]);
+    setSelectedWords([]);
   };
 
   useEffect(() => {
@@ -128,16 +192,69 @@ export default function Speedle() {
     return () => clearInterval(interval);
   }, [timerOn]);
 
+  useEffect(() => {
+    axios
+      .get("/wordle/speedle/get")
+      .then((data) => setSpeedleBank(data.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    if (currentIdx.try < 8 && endGame.correct < 5) {
+      // Game continues
+    } else if (currentIdx.try <= 8 && endGame.correct === 5) {
+      setEndGame({ ...endGame, attemptsLeft: false });
+      setTimerOn(false);
+    } else {
+      setEndGame({ ...endGame, attemptsLeft: false });
+      setTimerOn(false);
+    }
+  }, [currentIdx.try]);
+
   return (
-    <AllSpeedle.Provider value={{ time, setTime, timerOn, setTimerOn }}>
+    <AllSpeedle.Provider
+      value={{
+        time,
+        setTime,
+        timerOn,
+        setTimerOn,
+        board,
+        setBoard,
+        speedleBank,
+        setSpeedleBank,
+        currentIdx,
+        setCurrentIdx,
+        handleEnter,
+        handleBackspace,
+        handleLetterSelect,
+        endGame,
+        setEndGame,
+        repeatWord,
+        setRepeatWord,
+        validWord,
+        setValidWord,
+        selectedLetters,
+        setSelectedLetters,
+        selectedWords,
+        setSelectedWords,
+        handleResetGame,
+      }}
+    >
       <Header>
         Speedle
         {/* <Notices />
         {endGame.attemptsLeft ? <></> : <EndGame />} */}
       </Header>
       <Timer />
-      {/* <Board />
-      <Keyboard /> */}
+      {timerOn ? (
+        <>
+          <Board />
+          <Keyboard />
+        </>
+      ) : (
+        <></>
+      )}
+
       <BackIcon onClick={() => setPage("homepage")}>{"< Go Back"}</BackIcon>
     </AllSpeedle.Provider>
   );

@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
 
 import { AllSpeedle } from "./Speedle.jsx";
 
@@ -74,7 +73,8 @@ const ResetButton = styled.button`
 `;
 
 export default function Timer() {
-  const { time, setTime, timerOn, setTimerOn } = useContext(AllSpeedle);
+  const { time, setTime, timerOn, setTimerOn, handleResetGame } =
+    useContext(AllSpeedle);
   return (
     <div className="Timers">
       <div id="display">
@@ -89,7 +89,12 @@ export default function Timer() {
         )}
         {timerOn && <StopButton onClick={() => setTimerOn(false)}></StopButton>}
         {!timerOn && time > 0 && (
-          <ResetButton onClick={() => setTime(0)}></ResetButton>
+          <ResetButton
+            onClick={() => {
+              handleResetGame();
+              setTime(0);
+            }}
+          ></ResetButton>
         )}
       </div>
     </div>
