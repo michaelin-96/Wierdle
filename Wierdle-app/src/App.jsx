@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createContext } from "react";
 import styled from "styled-components";
-import { defaultBoard } from "./WOTD/DefaultBoard.js";
-import { defaultBoardP } from "./WOTD/DefaultBoardP.js";
+import { defaultBoard } from "./components/DefaultBoard.js";
+import { defaultBoardP } from "./components/DefaultBoardP.js";
 import axios from "axios";
 const Homepage = React.lazy(() => import("./Homepage/Homepage.jsx"));
 const WOTD = React.lazy(() => import("./WOTD/WOTD.jsx"));

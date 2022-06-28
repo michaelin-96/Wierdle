@@ -3,10 +3,10 @@ import styled from "styled-components";
 
 import { AllWordle } from "../App.jsx";
 
-import Board from "../WOTD/Board.jsx";
-import Keyboard from "../WOTD/Keyboard.jsx";
-import EndGame from "../WOTD/EndGame.jsx";
-import Notices from "../WOTD/Notices.jsx";
+import Board from "../components/Board.jsx";
+import Keyboard from "../components/Keyboard.jsx";
+import EndGame from "../components/EndGame.jsx";
+import Notices from "../components/Notices.jsx";
 
 const Header = styled.h2`
   font-size: 2em;
