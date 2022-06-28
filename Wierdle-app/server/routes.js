@@ -1,9 +1,11 @@
-var controller = require('./controllers');
-var router = require('express').Router();
+var controller = require("./controllers");
+var router = require("express").Router();
 
 // Gets the word of the day
-router.get('/wotd/get', controller.wotd.get);
-// Check if word exists in bank
-router.get('/wotd/check', controller.wotd.check);
+router.get("/wotd/get", controller.wotd.get);
+// Check if word exists in bank works for both practice and wotd
+router.get("/wotd/check", controller.wotd.check);
+// Gets random word
+router.get("/practice/get", controller.practice.get);
 
 module.exports = router;
