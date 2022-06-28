@@ -1,18 +1,18 @@
-import React, {useState, useContext, useEffect} from 'react';
-import styled from 'styled-components';
+import React, { useState, useContext, useEffect } from "react";
+import styled from "styled-components";
 
-import {AllWordle} from '../App.jsx';
+import { AllWordle } from "../App.jsx";
 
-import Board from '../WOTD/Board.jsx';
-import Keyboard from '../WOTD/Keyboard.jsx';
-import EndGame from '../WOTD/EndGame.jsx';
-import Notices from '../WOTD/Notices.jsx';
+import Board from "../components/Board.jsx";
+import Keyboard from "../components/Keyboard.jsx";
+import EndGame from "../components/EndGame.jsx";
+import Notices from "../components/Notices.jsx";
 
 const Header = styled.h2`
   font-size: 2em;
-  margin-top:5px;
+  margin-top: 5px;
   margin-bottom: 10px;
-`
+`;
 
 const BackIcon = styled.div`
   font-size: 1.5em;
@@ -24,22 +24,20 @@ const BackIcon = styled.div`
   position: absolute;
   top: 20px;
   left: 20px;
+`;
 
-`
-
-export default function Practice () {
-
-  const {setPage, endGame} = useContext(AllWordle);
+export default function Practice() {
+  const { setPage, endGameP } = useContext(AllWordle);
   return (
     <>
-      <Header>Practice Weird(le)
-      <Notices />
-      {endGame.attemptsLeft ? <></> : <EndGame />}
+      <Header>
+        Practice Weird(le)
+        <Notices />
+        {endGameP.attemptsLeft ? <></> : <EndGame />}
       </Header>
       <Board />
       <Keyboard />
-      <BackIcon onClick={() => setPage('homepage')}>{'< Go Back'}</BackIcon>
+      <BackIcon onClick={() => setPage("homepage")}>{"< Go Back"}</BackIcon>
     </>
   );
-
-};
+}
