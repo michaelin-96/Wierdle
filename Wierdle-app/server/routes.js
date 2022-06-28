@@ -8,4 +8,5 @@ router.get("/wotd/check", controller.wotd.check);
 // Gets random word
 router.get("/practice/get", controller.practice.get);
 
+router.get("/speedle/get", controller.speedle.get);
 module.exports = router;

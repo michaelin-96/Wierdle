@@ -7,6 +7,7 @@ const Homepage = React.lazy(() => import("./Homepage/Homepage.jsx"));
 const WOTD = React.lazy(() => import("./WOTD/WOTD.jsx"));
 const Stats = React.lazy(() => import("./Stats/Stats.jsx"));
 const Practice = React.lazy(() => import("./Practice/Practice.jsx"));
+const Speedle = React.lazy(() => import("./Speedle/Speedle.jsx"));
 
 export const AllWordle = createContext();
 
@@ -60,6 +61,8 @@ export default function App() {
         return <Stats />;
       case "practice":
         return <Practice />;
+      case "speed":
+        return <Speedle />;
       default:
         return <Homepage />;
     }
