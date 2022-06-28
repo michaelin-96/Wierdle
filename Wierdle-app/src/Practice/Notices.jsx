@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
-import styled from "styled-components";
-import { AllWOTD } from "./WOTD.jsx";
+import React, {useState, useContext, useEffect} from 'react';
+import styled from 'styled-components';
+import {AllWordle} from '../App.jsx';
 
 const NoticeBody = styled.h5`
   margin-top: 5px;
@@ -8,10 +8,10 @@ const NoticeBody = styled.h5`
   color: #f07171;
   background-color: #fafafa;
   border-radius: 5px;
-`;
+`
 
-export default function Notices() {
-  const { validWord, repeatWord } = useContext(AllWOTD);
+export default function Notices () {
+  const {validWord, repeatWord} = useContext(AllWordle);
 
   return (
     <>
