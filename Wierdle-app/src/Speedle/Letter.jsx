@@ -18,38 +18,23 @@ const LetterContainer = styled.div`
 export default function Letter({ row, column }) {
   const { board, speedleBank, currentIdx } = useContext(AllSpeedle);
 
-  // const currentLetter = board[row][column];
-  // const correctLetter =
-  //   speedleBank[currentIdx.try][column] === currentLetter;
-  // const containsLetter =
-  //   !correctLetter &&
-  //   currentLetter !== "" &&
-  //   speedleBank[currentIdx.try].includes(currentLetter);
+  const currentLetter = board[row][column];
+  const correctLetter =
+    speedleBank[currentIdx.try][column] === currentLetter || false;
+  const containsLetter =
+    !correctLetter &&
+    currentLetter !== "" &&
+    speedleBank[currentIdx.try].includes(currentLetter);
 
-  // const letterID =
-  //   currentIdx.row > row &&
-  //   (correctLetter ? "green" : containsLetter ? "yellow" : "incorrect");
-
-  // const [letterTag, setLetterTag] = useState(letterID);
-
-  // useEffect(() => {
-  //   const currentLetter = board[row][column];
-  //   const correctLetter =
-  //     speedleBank[currentIdx.try][column] === currentLetter || true;
-  //   const containsLetter =
-  //     !correctLetter &&
-  //     currentLetter !== "" &&
-  //     speedleBank[currentIdx.try].includes(currentLetter);
-
-  //   const letterID =
-  //     currentIdx.row > row &&
-  //     (correctLetter ? "green" : containsLetter ? "yellow" : "incorrect");
-  //   setLetterTag(letterID);
-  // }, [currentIdx]);
+  const letterID =
+    currentIdx.row > row &&
+    (correctLetter ? "green" : containsLetter ? "yellow" : "incorrect");
 
   return (
     <>
-      <LetterContainer>{board[row][column]}</LetterContainer>
+      <LetterContainer id={letterID ? letterID : ""}>
+        {board[row][column]}
+      </LetterContainer>
     </>
   );
 }

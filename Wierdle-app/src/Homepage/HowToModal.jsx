@@ -67,7 +67,8 @@ export default function HowToModal({ open, onClose }) {
               <br />
               <br /> After each guess, the color of the tiles will change to
               show how close your guess was to the word. <br />
-              <br /> Game & timer ends when you finish 5 WEIRDLES correctly.
+              <br /> Game & timer ends when you finish 5 WEIRDLES correctly or
+              when you reach 8 attempts.
             </p>
           </HowToBody>
         </ModalStyles>

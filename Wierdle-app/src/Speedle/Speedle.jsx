@@ -7,8 +7,8 @@ import { defaultBoard } from "./DefaultBoard.js";
 
 import Board from "./Board.jsx";
 import Keyboard from "./Keyboard.jsx";
-import EndGame from "../components/EndGame.jsx";
-import Notices from "../components/Notices.jsx";
+import EndGame from "./EndGame.jsx";
+import Notices from "./Notices.jsx";
 
 import Timer from "./Timer.jsx";
 
@@ -35,7 +35,7 @@ const BackIcon = styled.div`
 export default function Speedle() {
   const { setPage } = useContext(AllWordle);
 
-  const [speedleBank, setSpeedleBank] = useState(["WEIRD"]);
+  const [speedleBank, setSpeedleBank] = useState([]);
   // Timer states
   const [time, setTime] = useState(0);
   const [timerOn, setTimerOn] = useState(false);
@@ -110,16 +110,25 @@ export default function Speedle() {
                     setEndGame({ ...endGame, correct: endGame.correct + 1 });
                     setValidWord(true);
                   } else {
-                    setSelectedWords([
-                      ...selectedWords,
-                      board[currentIdx.row].join(""),
-                    ]);
-                    setCurrentIdx({
-                      row: currentIdx.row + 1,
-                      column: 0,
-                      try: currentIdx.try,
-                    });
-                    setValidWord(true);
+                    if (currentIdx.row < 5) {
+                      setSelectedWords([
+                        ...selectedWords,
+                        board[currentIdx.row].join(""),
+                      ]);
+                      setCurrentIdx({
+                        row: currentIdx.row + 1,
+                        column: 0,
+                        try: currentIdx.try,
+                      });
+                      setValidWord(true);
+                    } else {
+                      setValidWord(true);
+                      setEndGame({
+                        ...endGame,
+                        incorrect: endGame.incorrect + 1,
+                      });
+                      handleNextWord();
+                    }
                   }
                 } else {
                   setValidWord(false);
@@ -242,8 +251,7 @@ export default function Speedle() {
     >
       <Header>
         Speedle
-        {/* <Notices />
-        {endGame.attemptsLeft ? <></> : <EndGame />} */}
+        {endGame.attemptsLeft ? <Notices /> : <EndGame />}
       </Header>
       <Timer />
       {timerOn ? (
